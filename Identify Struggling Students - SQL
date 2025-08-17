@@ -30,7 +30,10 @@ Step 4: Create a column which calculates the percentage of submissions the stude
 */
 
 submissions_percentages AS (
-SELECT ID_NUMBER, COUNT(ID_NUMBER) AS expected_submissions, SUM(submission_value) AS total_submissions, SUM(submission_value)/COUNT(ID_NUMBER)*100 AS percent_submitted
+SELECT ID_NUMBER, 
+COUNT(ID_NUMBER) AS expected_submissions, 
+SUM(submission_value) AS total_submissions, 
+ROUND(SUM(submission_value)/COUNT(ID_NUMBER)*100) AS percent_submitted
 FROM submission_value_table
 GROUP BY ID_NUMBER
   )
@@ -40,7 +43,14 @@ Step 5: Join the student_details table to the submissions_percentages CTE and se
 Step 6: Order by percent_submitted
 */
 
-SELECT STUDENT_NUMBER, FIRST_NAME, LAST_NAME, EMAIL, expected_submissions, total_submissions, percent_submitted
+SELECT 
+STUDENT_NUMBER, 
+FIRST_NAME, 
+LAST_NAME, 
+EMAIL, 
+expected_submissions, 
+total_submissions, 
+percent_submitted
 FROM student_details
 JOIN submissions_percentages
 ON STUDENT_NUMBER = ID_NUMBER
