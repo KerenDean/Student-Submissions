@@ -1,0 +1,48 @@
+/*
+Task: Create a table that shows the percentage of submissions each student has made against their expected submissions.
+Include their names and email addresses so that staff can easily contact each student.
+Order it by lowest percentage so staff can easily identify which students are struggling and are at risk of disenegaging
+*/
+
+/*
+We will first use the submissions table to find out how many submissions each student was meant to make, and how many they did make. 
+Step 1: Find out what values exist in the submissions_status column.
+*/
+
+SELECT DISTINCT (submission_status)
+FROM submissions; 
+
+-- Step 2: Create a column that assigns a value of 1 for any submission made, and a value of 0 for a missed submission
+WITH submission_value_table AS (
+  SELECT *,
+CASE 
+	WHEN submission_status = 'Finished' THEN 1
+    WHEN submission_status = '-' THEN 0
+    WHEN submission_status = 'Submitted' THEN 1
+    WHEN submission_status = 'None' THEN 0
+END AS submission_value
+FROM submissions 
+),
+
+/*
+Step 3: Create one column for the total number of submissions each student was expected to submit, and one for the total submissions the student made.
+Step 4: Create a column which calculates the percentage of submissions the student made of their overall expected total.
+*/
+
+submissions_percentages AS (
+SELECT ID_NUMBER, COUNT(ID_NUMBER) AS expected_submissions, SUM(submission_value) AS total_submissions, SUM(submission_value)/COUNT(ID_NUMBER)*100 AS percent_submitted
+FROM submission_value_table
+GROUP BY ID_NUMBER
+  )
+
+/*
+Step 5: Join the student_details table to the submissions_percentages CTE and select only the columns staff need to identify students.
+Step 6: Order by percent_submitted
+*/
+
+SELECT STUDENT_NUMBER, FIRST_NAME, LAST_NAME, EMAIL, expected_submissions, total_submissions, percent_submitted
+FROM student_details
+JOIN submissions_percentages
+ON STUDENT_NUMBER = ID_NUMBER
+ORDER BY percent_submitted;
+
