@@ -1,0 +1,21 @@
+-- Task: Find out whether students studying full-time or students studying part-time miss more submissions
+
+WITH submission_value_table AS (
+  SELECT *,
+CASE 
+	WHEN submission_status = 'Finished' THEN 1
+    WHEN submission_status = '-' THEN 0
+    WHEN submission_status = 'Submitted' THEN 1
+    WHEN submission_status = 'None' THEN 0
+END AS submission_value
+FROM submissions 
+)
+
+
+SELECT PATHWAY, COUNT(STUDENT_NUMBER) AS total_expected_submissions, SUM(submission_value) AS total_submissions, ROUND(SUM(submission_value)/COUNT(STUDENT_NUMBER) * 100) percent_submitted
+FROM student_details
+JOIN submission_value_table
+ON STUDENT_NUMBER = ID_NUMBER
+GROUP BY PATHWAY;
+
+-- We can see 55% of all submissions were missed by both full-time and part-time students. There is no correlation between study type and amount of work submitted.
