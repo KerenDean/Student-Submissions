@@ -1,4 +1,4 @@
--- Task: Find out whether students studying full-time or students studying part-time miss more submissions
+-- Task: Which students miss more submissions? Students studying full time, or students studying part time?
 
 WITH submission_value_table AS (
   SELECT *,
