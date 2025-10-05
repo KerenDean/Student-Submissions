@@ -1,3 +1,5 @@
+-- NB: This is all dummy data
+
 CREATE TABLE student_details
 (
   STUDENT_NUMBER int(10),
