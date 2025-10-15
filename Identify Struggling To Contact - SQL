@@ -1,3 +1,5 @@
+-- The data used here is dummy data. It can be found in the file "SQL Tables". 
+
 /*
 Task: Create a table that shows the percentage of submissions each student has made against their expected submissions.
 Include their names and email addresses so that staff can easily contact each student.
