@@ -1,4 +1,8 @@
--- Task: Which students miss more submissions? Students studying full time, or students studying part time?
+/*
+The data used here is dummy data. It can be found in the file "SQL Tables". 
+
+Task: Which students miss more submissions? Students studying full time, or students studying part time?
+*/
 
 WITH submission_value_table AS (
   SELECT *,
